@@ -1,0 +1,28 @@
+package FunkProg.övn3;
+
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.*;
+
+class UpperCaseTest {
+
+
+
+    @Test
+    public void transformShouldConvertCollectionElementsToUpperCase() {
+        List<String> collection = asList("My", "name", "is", "John", "Doe");
+        List<String> expected = asList("MY", "NAME", "IS", "JOHN", "DOE");
+        List<String> result = UpperCase.transform(collection);
+
+        assertEquals(result.size(), 5);
+        assertEquals(result.get(0), expected.get(0));
+        assertEquals(result.get(1), expected.get(1));
+        assertEquals(result.get(2), expected.get(2));
+        assertEquals(result.get(3), expected.get(3));
+        assertEquals(result.get(4), expected.get(4));
+
+    }
+}
