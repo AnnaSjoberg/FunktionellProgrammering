@@ -81,7 +81,7 @@ public class Repository implements RepoInterface {
 
 
             }
-            if (foundMatch == 0){
+/*            if (foundMatch == 0){
                 confirmation = "No customer matched the input name and password";
             }
             if (foundMatch > 1){
@@ -91,9 +91,12 @@ public class Repository implements RepoInterface {
                 confirmation = "Customer verified. Continue with your order.";
             }
 
+
+ */
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
 /*
     @Override
