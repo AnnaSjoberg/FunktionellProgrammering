@@ -53,7 +53,8 @@ public class Repository {
         List<Present> wishList = getWishlistbyChildId(id);
         List<Present> giftList = getGiftListbyChildId(id);
 
-        String query = "select child.id, child.name, child.address from child inner join country on child.countryid = country.id where child.id = ?";
+        String query = "select child.id, child.name, child.address from child " +
+                "inner join country on child.countryid = country.id where child.id = ?";
 
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"), p.getProperty("password"));
@@ -96,7 +97,9 @@ public class Repository {
 
     public List<Present> getWishlistbyChildId (int id){
         List<Present> wishList = new ArrayList<>();
-        String query = "select present.id as pId, present.name, child.id from present inner join wishes on present.id = wishes.presentid inner join child on wishes.childid = child.id where child.id = ?";
+        String query = "select present.id as pId, present.name, child.id from present " +
+                "inner join wishes on present.id = wishes.presentid " +
+                "inner join child on wishes.childid = child.id where child.id = ?";
 
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"), p.getProperty("password"));
@@ -118,7 +121,9 @@ public class Repository {
 
     public List<Present> getGiftListbyChildId (int id){
         List<Present> giftList = new ArrayList<>();
-        String query = "select present.id as pID, present.name, child.id from present inner join gets on present.id = gets.presentid inner join child on gets.childid = child.id where child.id = ?";
+        String query = "select present.id as pID, present.name, child.id from present " +
+                "inner join gets on present.id = gets.presentid " +
+                "inner join child on gets.childid = child.id where child.id = ?";
 
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"), p.getProperty("password"));

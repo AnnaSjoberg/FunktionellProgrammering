@@ -74,7 +74,9 @@ public class Repository {
 
     public List<Child> getWishingChildrenByPresentID(int id){
         List<Child> wantedBy = new ArrayList<>();
-        String query = "select child.id as childId, child.name as name, child.address, present.id from child inner join wishes on child.id = wishes.childId inner join present on wishes.presentId = present.id where present.id = ?";
+        String query = "select child.id as childId, child.name as name, child.address, " +
+                "present.id from child inner join wishes on child.id = wishes.childId " +
+                "inner join present on wishes.presentId = present.id where present.id = ?";
 
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"), p.getProperty("password"));
@@ -95,7 +97,9 @@ public class Repository {
     }
     public List<Child> getReceivingChildrenByPresentID(int id){
         List<Child> giftedTo = new ArrayList<>();
-        String query = "select child.id as childId, child.name as name, child.address, present.id from child inner join gets on child.id = gets.childId inner join present on gets.presentId = present.id where present.id = ?";
+        String query = "select child.id as childId, child.name as name, child.address, " +
+                "present.id from child inner join gets on child.id = gets.childId " +
+                "inner join present on gets.presentId = present.id where present.id = ?";
 
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"), p.getProperty("password"));

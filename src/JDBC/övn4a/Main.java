@@ -9,8 +9,8 @@ public class Main {
         Repository r = new Repository();
 
         List<Child> list = r.getAllChildren();
-        list.forEach(child -> System.out.println(child));
-        //list.forEach(child -> child.print());
+        //list.forEach(child -> System.out.println(child));
+        list.forEach(child -> child.print());
     }
     public static void main(String[] args) {
         Main m = new Main();

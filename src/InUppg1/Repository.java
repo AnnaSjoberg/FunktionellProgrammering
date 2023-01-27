@@ -67,8 +67,9 @@ public class Repository implements RepoInterface {
 
     @Override
     public List<Order> getListOfOrdersByCustomerName(String customerName) {
-        String query = "Select * from orders inner join customer on orders.customerid = customer.id where delivered = false and name = ?";
         List<Order> orders;
+
+        String query = "Select * from orders inner join customer on orders.customerid = customer.id where delivered = false and name = ?";
 
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"), p.getProperty("password"));

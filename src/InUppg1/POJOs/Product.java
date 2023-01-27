@@ -5,14 +5,14 @@ public class Product {
     private final Model model;
     private final Color color;
     private final int size;
-    private int balance;
+    private int orderedAmount;
 
-    public Product(int id, Model model, Color color, int size, int balance) {
+    public Product(int id, Model model, Color color, int size, int orderedAmount) {
         this.id = id;
         this.model = model;
         this.color = color;
         this.size = size;
-        this.balance = balance;
+        this.orderedAmount = orderedAmount;
     }
 
     public int getId() {
@@ -31,11 +31,11 @@ public class Product {
         return size;
     }
 
-    public int getBalance() {
-        return balance;
+    public int getOrderedAmount() {
+        return orderedAmount;
     }
 
-    public void setBalance(int balance) {
-        this.balance = balance;
+    public void setOrderedAmount(int orderedAmount) {
+        this.orderedAmount = orderedAmount;
     }
 }
