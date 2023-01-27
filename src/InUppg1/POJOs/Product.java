@@ -1,10 +1,10 @@
 package InUppg1.POJOs;
 
 public class Product {
-    private int id;
-    private Model model;
-    private Color color;
-    private int size;
+    private final int id;
+    private final Model model;
+    private final Color color;
+    private final int size;
     private int balance;
 
     public Product(int id, Model model, Color color, int size, int balance) {
@@ -19,32 +19,16 @@ public class Product {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Model getModel() {
         return model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
     }
 
     public Color getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
     public int getSize() {
         return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
     }
 
     public int getBalance() {

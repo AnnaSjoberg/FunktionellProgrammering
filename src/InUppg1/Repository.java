@@ -1,6 +1,7 @@
 package InUppg1;
 
 import InUppg1.POJOs.Customer;
+import InUppg1.POJOs.Order;
 import InUppg1.POJOs.Product;
 
 import java.io.FileInputStream;
@@ -25,6 +26,11 @@ public class Repository implements RepoInterface {
     }
 
     //metoder från interface
+
+    @Override
+    public String callAddToCart(Customer customer, Product product, int amount) {
+        return null;
+    }
 
     @Override
     public String verifyCustomer(String name, String password) {
@@ -60,6 +66,37 @@ public class Repository implements RepoInterface {
     }
 
     @Override
+    public List<Order> getListOfOrdersByCustomerName(String customerName) {
+        String query = "Select * from orders inner join customer on orders.customerid = customer.id where delivered = false and name = ?";
+        List<Order> orders;
+
+        try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
+                p.getProperty("name"), p.getProperty("password"));
+             PreparedStatement pstmt = c.prepareStatement(query);
+        ) {
+            pstmt.setString(1, customerName);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+
+
+            }
+            if (foundMatch == 0){
+                confirmation = "No customer matched the input name and password";
+            }
+            if (foundMatch > 1){
+                confirmation = "Multiple customers matched input name and password";
+            }
+            if (confirmation.equalsIgnoreCase("")){
+                confirmation = "Customer verified. Continue with your order.";
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+/*
+    @Override
     public Customer getCustomerByNameAndPassword(String name, String password) {
         return null;
     }
@@ -74,5 +111,7 @@ public class Repository implements RepoInterface {
         return null;
     }
 
+
+ */
 
 }
