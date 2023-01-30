@@ -2,16 +2,14 @@ package InUppg1.POJOs;
 
 import java.util.List;
 
-public class Order {
+public class Orders {
     private final int id;
-    private final Customer customer;
     private boolean delivered;
     private List<Product> products;
-    //private List<Cartcontent> cartcontents; ERSÄTTA OM NÖDVÄNDIGT ATT STRUKTUREN ÄR SAMMA SOM I DB
 
-    public Order(int id, Customer customer, boolean delivered, List<Product> products) {
+
+    public Orders(int id, boolean delivered, List<Product> products) {
         this.id = id;
-        this.customer = customer;
         this.delivered = delivered;
         this.products = products;
     }
@@ -19,11 +17,6 @@ public class Order {
     public int getId() {
         return id;
     }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
 
     public boolean isDelivered() {
         return delivered;

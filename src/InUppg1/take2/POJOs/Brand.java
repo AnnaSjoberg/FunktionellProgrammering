@@ -1,4 +1,4 @@
-package InUppg1.POJOs;
+package InUppg1.take2.POJOs;
 
 public class Brand {
     private int id;

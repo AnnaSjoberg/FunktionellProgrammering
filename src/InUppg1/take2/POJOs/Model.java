@@ -1,4 +1,4 @@
-package InUppg1.POJOs;
+package InUppg1.take2.POJOs;
 
 import java.util.List;
 
@@ -7,15 +7,14 @@ public class Model {
     private Brand brand;
     private String name;
     private int price;
-    private List<Category> categories;
+
 
 public Model(){}
-    public Model(int id, Brand brand, String name, int price, List<Category> categories) {
+    public Model(int id, Brand brand, String name, int price) {
         this.id = id;
         this.brand = brand;
         this.name = name;
         this.price = price;
-        this.categories = categories;
     }
 
     public int getId() {
@@ -38,11 +37,8 @@ public Model(){}
         this.price = price;
     }
 
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
+    @Override
+    public String toString() {
+        return  id + ": " + name;
     }
 }

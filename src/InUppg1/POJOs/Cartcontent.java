@@ -2,22 +2,22 @@ package InUppg1.POJOs;
 
 public class Cartcontent {
     private final Product product;
-    private int orderdAmount;
+    private int orderedAmount;
 
-    public Cartcontent(Product product, int orderdAmount) {
+    public Cartcontent(Product product, int orderedAmount) {
         this.product = product;
-        this.orderdAmount = orderdAmount;
+        this.orderedAmount = orderedAmount;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public int getOrderdAmount() {
-        return orderdAmount;
+    public int getOrderedAmount() {
+        return orderedAmount;
     }
 
-    public void setOrderdAmount(int orderdAmount) {
-        this.orderdAmount = orderdAmount;
+    public void setOrderedAmount(int orderedAmount) {
+        this.orderedAmount = orderedAmount;
     }
 }
