@@ -1,4 +1,4 @@
-package FunkProg.övn1a;
+package FunkProg.övn1acdefg;
 
 public class Book {
     private String title;

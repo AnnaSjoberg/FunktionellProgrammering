@@ -25,7 +25,7 @@ public class CustomerRepository {
         }
     }
 
-    public Brand getBrandByModelId (int modelId){
+    public Brand getBrandByModelId(int modelId) {
         Brand brand = new Brand();
         String query = "select brand.id as id, brand.name as name, brand.contact as contact" +
                 " from brand inner join model on model.brandid = brand.id where model.id = ?";
@@ -38,7 +38,7 @@ public class CustomerRepository {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                brand = new Brand(rs.getInt("id"),rs.getString("name"),
+                brand = new Brand(rs.getInt("id"), rs.getString("name"),
                         rs.getString("contact"));
             }
 
@@ -49,7 +49,7 @@ public class CustomerRepository {
         return brand;
     }
 
-    public Model getModelByProductId (int productId){
+    public Model getModelByProductId(int productId) {
         Model model = new Model();
         Brand brand;
         String query = "select model.id as id, model.brandid as brand, model.name as name, " +
@@ -65,7 +65,7 @@ public class CustomerRepository {
 
             while (rs.next()) {
                 brand = getBrandByModelId(rs.getInt("id"));
-                model = new Model(rs.getInt("id"),brand,
+                model = new Model(rs.getInt("id"), brand,
                         rs.getString("name"), rs.getInt("price"));
             }
 
@@ -76,7 +76,7 @@ public class CustomerRepository {
         return model;
     }
 
-    public Product getProductById (int id){
+    public Product getProductById(int id) {
         Product product = new Product();
         Model model = getModelByProductId(id);
         Color color;
@@ -96,7 +96,7 @@ public class CustomerRepository {
             while (rs.next()) {//int id, Model model, Color color, int size, int balance
                 size = Integer.parseInt(rs.getString("shoesize"));
                 color = Color.valueOf(rs.getString("color").toUpperCase());
-                product = new Product(id, model, color,size, rs.getInt("balance"));
+                product = new Product(id, model, color, size, rs.getInt("balance"));
             }
 
         } catch (SQLException e) {
@@ -104,11 +104,10 @@ public class CustomerRepository {
         }
 
 
-
         return product;
     }
 
-    public List<Product> getAllProducts (){
+    public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
         List<Integer> allProductIDs = new ArrayList<>();
 
@@ -133,16 +132,17 @@ public class CustomerRepository {
 
         return products;
     }
-    public Customer getVerifiedCustomer (String name, String password){
+
+    public Customer getVerifiedCustomer(String name, String password) {
         List<Customer> customers = getAllCustomers();
 
-        Customer customer = (Customer) customers.stream().filter(c->c.getName().equalsIgnoreCase(name)
-                &&c.getPassword().equalsIgnoreCase(password));
+        Customer customer = (Customer) customers.stream().filter(c -> c.getName().equalsIgnoreCase(name)
+                && c.getPassword().equalsIgnoreCase(password));
 
         return customer;
     }
 
-    public List<Customer> getAllCustomers (){
+    public List<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<>();
         List<Integer> allCustomerIds = new ArrayList<>();
 
@@ -168,7 +168,7 @@ public class CustomerRepository {
         return customers;
     }
 
-    public Customer getCustomerById (int id){
+    public Customer getCustomerById(int id) {
         Customer customer = new Customer();
         String query = "select * from Customer where id = ?";
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
@@ -179,8 +179,8 @@ public class CustomerRepository {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                customer = new Customer(id, rs.getString("name"),rs.getString("socialSecurityNumber"),
-                        rs.getString("address"),rs.getString("password"));
+                customer = new Customer(id, rs.getString("name"), rs.getString("socialSecurityNumber"),
+                        rs.getString("address"), rs.getString("password"));
             }
 
         } catch (SQLException e) {
@@ -189,10 +189,10 @@ public class CustomerRepository {
         return customer;
     }
 
-    public List<Order> getAllOrders (){
+    public List<Order> getAllOrders() {
         List<Order> orders = new ArrayList<>();
         List<Integer> allOrderIds = new ArrayList<>();
-        String query= "Select id from orders";
+        String query = "Select id from orders";
 
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"), p.getProperty("password"));
@@ -213,7 +213,8 @@ public class CustomerRepository {
 
         return orders;
     }
-    public Order getOrderById (int id){
+
+    public Order getOrderById(int id) {
         Order order = new Order();
         String query = "select * from Orders where id = ?";
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
@@ -225,7 +226,7 @@ public class CustomerRepository {
 
             while (rs.next()) {
                 Customer customer = getCustomerById(rs.getInt("Customerid"));
-                order = new Order(id, customer,rs.getBoolean("delivered"));
+                order = new Order(id, customer, rs.getBoolean("delivered"));
             }
 
         } catch (SQLException e) {
@@ -235,28 +236,36 @@ public class CustomerRepository {
     }
 
 
-    public void callAddToCart (Customer customer, Product product, int amount, int orderId){
-        List<Order> changeableOrders = getAllOrders().stream()
-                .filter(o->!o.isDelivered()).toList();
-
+    public String callAddToCart(Customer customer, Product product, int amount, int orderId) {
+        List<Order> changeableOrders = getAllOrders().stream().filter(o -> !o.isDelivered()).toList();
+        String confirmation = "";
+        /*
+        if (changeableOrders.stream().anyMatch(o->o.getId()==orderId)) {
+            String query = "call AddToCart(?,?,?,?,)";
+        }*/
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"), p.getProperty("password"));
              CallableStatement cstmt = c.prepareCall("call AddToCart(?,?,?,?)");
         ) {
-            cstmt.setInt(1,customer.getId());
-            if (changeableOrders.stream().anyMatch(o->o.getId()==orderId)){
-                cstmt.setInt(2,orderId);
+            cstmt.setInt(1, customer.getId());
+            if (changeableOrders.stream().anyMatch(o -> o.getId() == orderId)) {
+                cstmt.setInt(2, orderId);
             }
-            cstmt.setInt(3,product.getId());
-            cstmt.setInt(4,amount);
+            cstmt.setInt(3, product.getId());
+            cstmt.setInt(4, amount);
 
             cstmt.execute();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());;
+            System.out.println(e.getMessage());
+            return "Order could not be placed";
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return "Order could not be placed";
 
         }
-
+        return "Order was placed successfully";
     }
 
 }

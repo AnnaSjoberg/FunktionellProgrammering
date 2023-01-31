@@ -57,6 +57,9 @@ public class DashBoard {
             System.out.println("Ordered amount must be greater than 0");
         }
 
+        Product product = repo.getProductById(chosenProduct);
+        repo.callAddToCart(customer,product,amount,18);
+
     }
 
 
