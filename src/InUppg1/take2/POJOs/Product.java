@@ -48,7 +48,9 @@ public class Product {
 
     @Override
     public String toString() {
-        return id +". "+ model.getName() +"\t\t Color: " + color +
+        return model.getName() +"\t\t Color: " + color +
                 "\t\t Size: " + size + "\t\t"+balance + " pairs in stock.";
+        //return id +". "+ model.getName() +"\t\t Color: " + color +
+          //      "\t\t Size: " + size + "\t\t"+balance + " pairs in stock.";
     }
 }

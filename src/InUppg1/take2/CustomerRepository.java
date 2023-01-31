@@ -111,7 +111,7 @@ public class CustomerRepository {
         List<Product> products = new ArrayList<>();
         List<Integer> allProductIDs = new ArrayList<>();
 
-        String query = "Select id from product";
+        String query = "Select id from product where balance >0";
 
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"), p.getProperty("password"));
@@ -136,8 +136,8 @@ public class CustomerRepository {
     public Customer getVerifiedCustomer(String name, String password) {
         List<Customer> customers = getAllCustomers();
 
-        Customer customer = (Customer) customers.stream().filter(c -> c.getName().equalsIgnoreCase(name)
-                && c.getPassword().equalsIgnoreCase(password));
+        Customer customer = customers.stream().filter(c -> c.getName().equalsIgnoreCase(name)
+                && c.getPassword().equals(password)).findFirst().orElse(null);
 
         return customer;
     }
@@ -236,36 +236,37 @@ public class CustomerRepository {
     }
 
 
-    public String callAddToCart(Customer customer, Product product, int amount, int orderId) {
-        List<Order> changeableOrders = getAllOrders().stream().filter(o -> !o.isDelivered()).toList();
-        String confirmation = "";
-        /*
-        if (changeableOrders.stream().anyMatch(o->o.getId()==orderId)) {
-            String query = "call AddToCart(?,?,?,?,)";
-        }*/
-        try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
-                p.getProperty("name"), p.getProperty("password"));
-             CallableStatement cstmt = c.prepareCall("call AddToCart(?,?,?,?)");
-        ) {
-            cstmt.setInt(1, customer.getId());
-            if (changeableOrders.stream().anyMatch(o -> o.getId() == orderId)) {
+    public void callAddToCart(List<Cartcontent> cartcontentList) {
+        String confirmation = "Order was placed successfully";
+        List<Order> allOrders = getAllOrders();
+
+            int orderId = allOrders.stream().filter(o -> o.getCustomer().getId() == (cartcontentList.get(0).getCustomer().getId()))
+                    .filter(o -> o.isDelivered() == false).findFirst().map(Order::getId).orElse(-1);
+
+        for (Cartcontent content : cartcontentList) {
+
+            try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
+                    p.getProperty("name"), p.getProperty("password"));
+                 CallableStatement cstmt = c.prepareCall("call AddToCart(?,?,?,?)");
+            ) {
+                cstmt.setInt(1, content.getCustomer().getId());
                 cstmt.setInt(2, orderId);
+                cstmt.setInt(3, content.getProduct().getId());
+                cstmt.setInt(4, content.getOrderedAmount());
+
+                cstmt.execute();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                confirmation = "Order could not be placed";
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                confirmation = "Order could not be placed";
+
             }
-            cstmt.setInt(3, product.getId());
-            cstmt.setInt(4, amount);
-
-            cstmt.execute();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return "Order could not be placed";
-
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-            return "Order could not be placed";
-
         }
-        return "Order was placed successfully";
+        System.out.println(confirmation);
     }
 
 }

@@ -1,9 +1,8 @@
 package FunkProg.övn1acdefg;
 
 import java.text.Collator;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class Main1acdefg {
@@ -52,9 +51,31 @@ public class Main1acdefg {
         books.stream().map(Book::getTitle).sorted(c).forEach(System.out::println);
 
         System.out.println();
-
+        Book book = new Book("fre","fjf","grey",Genre.FRIENDSHIP,4,"Anna",false);
         //1g
         System.out.println(books.stream().map(Book::getTitle).collect(Collectors.joining(", ")));
+//allOrders.stream().filter(o -> o.getCustomer().equals(cartcontentList.get(0).getCustomer())).filter(o-> o.isDelivered()==false).findFirst().map(Order::getId).orElse(-1);
+
+        List<Book> tiny = books.stream().filter(b->b.isFact()).toList();
+
+        tiny.stream().map(b-> tiny.indexOf(b) + ". " + b.getTitle()).forEach(System.out::println);
+
+        System.out.println();
+        var counter = new AtomicInteger(1);
+        var orderedMap = new LinkedHashMap<Integer,String>();
+
+        books.stream().map(Book::getTitle).forEachOrdered(string -> orderedMap.put(counter.getAndIncrement(),string));
+        orderedMap.forEach((number, string) -> System.out.println(number + ". " + string));
+
+        System.out.println();
+
+        AtomicInteger count = new AtomicInteger(1);
+        var orderedMap2 = new LinkedHashMap<Integer, Book>();
+
+        books.stream().filter(b->b.getOwner().equalsIgnoreCase("anna")).forEachOrdered(bok -> orderedMap2.put(count.getAndIncrement(),bok));
+        orderedMap2.forEach((num,bok)-> System.out.println(num + ". " + bok.toString()));
+
+        int i = 2;
 
     }
 

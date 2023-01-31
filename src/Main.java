@@ -1,30 +1,23 @@
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Properties p = new Properties();
-        p.load(new FileInputStream("src/settings.properties"));
+        var counter = new AtomicInteger(1);
 
-        try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
-                p.getProperty("name"), p.getProperty("password"));
-             Statement stmt = c.createStatement();
-             ResultSet rs = stmt.executeQuery("select id, name, address from child")
-        ) {
-            while (rs.next()){
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String address = rs.getString("address");
+        var orderedMap = new LinkedHashMap<Integer,String>();
 
-                System.out.println(id+" "+name+" "+address);
-            }
+        var demoList = List.of("a","b","c","d","e","f","g");
 
+        demoList.stream()
+                .forEachOrdered(string -> orderedMap.put(counter.getAndIncrement(),string));
 
+        orderedMap.forEach((number, string) -> System.out.println(number + " " + string));
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

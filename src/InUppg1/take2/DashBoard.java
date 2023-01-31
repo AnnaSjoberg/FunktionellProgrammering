@@ -4,6 +4,7 @@ import InUppg1.take2.POJOs.Customer;
 import InUppg1.take2.POJOs.Model;
 import InUppg1.take2.POJOs.Product;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,18 +28,18 @@ public class DashBoard {
 
         customer = repo.getVerifiedCustomer(customerName,customerPassword);
 
-        products = repo.getAllProducts();
-        models = products.stream().map(m -> m.getModel()).toList();
         customers = repo.getAllCustomers();
+        products = repo.getAllProducts();
+        models = products.stream().map(m -> m.getModel()).sorted(Comparator.comparing(Model::getId)).toList();
 
-        System.out.println("Which model do you want to buy? (Choose number 1-9 (0=exit)");
-        models.stream().map(m -> m.toString()).distinct().sorted().forEach(m -> System.out.println(m));
+        System.out.println("Which model do you want to buy? (Choose number 1-9 (0=return)");
+        models.stream().map(m -> m.toString()).distinct().forEach(m -> System.out.println(m));
 
 
         int chosenModel = sc.nextInt();
         if (chosenModel == 0) {
             System.out.println("Order has been cancelled");
-            System.exit(0);
+
         }
         System.out.println("Please select which product you want by choosing the corresponding number.");
         products.stream().filter(p -> p.getModel().getId() == chosenModel).forEach(p -> System.out.println(p));
@@ -56,9 +57,6 @@ public class DashBoard {
         if (amount <0){
             System.out.println("Ordered amount must be greater than 0");
         }
-
-        Product product = repo.getProductById(chosenProduct);
-        repo.callAddToCart(customer,product,amount,18);
 
     }
 

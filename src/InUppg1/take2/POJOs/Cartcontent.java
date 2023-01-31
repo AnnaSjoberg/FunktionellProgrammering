@@ -1,35 +1,26 @@
 package InUppg1.take2.POJOs;
 
 public class Cartcontent {
-    private int id;
-    private Order order;
+    private Customer customer;
     private Product product;
     private int orderedAmount;
+
 
     public Cartcontent() {
     }
 
-    public Cartcontent(int id, Order order, Product product, int orderedAmount) {
-        this.id = id;
-        this.order = order;
+    public Cartcontent(Customer customer, Product product, int orderedAmount) {
+        this.customer = customer;
         this.product = product;
         this.orderedAmount = orderedAmount;
     }
 
-    public int getId() {
-        return id;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Product getProduct() {
