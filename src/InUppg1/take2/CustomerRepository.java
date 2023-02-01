@@ -76,15 +76,58 @@ public class CustomerRepository {
         return model;
     }
 
+    public ColorC getColorByProductId(int productId) {
+        ColorC color = new ColorC();
+        String query = "select color.id as id, color.color as color from color " +
+                "inner join product on color.id = product.colorid where product.id = ?";
+
+        try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
+                p.getProperty("name"), p.getProperty("password"));
+             PreparedStatement pstmt = c.prepareStatement(query);
+        ) {
+            pstmt.setInt(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                color = new ColorC(rs.getInt("id"), rs.getString("color"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return color;
+    }
+
+    public Size getSizeByProductId(int productId) {
+        Size size = new Size();
+        String query = "select shoesize.id as id, shoesize.shoesize as shoesize from shoesize " +
+                "inner join product on shoesize.id = product.shoesizeid where product.id = ?";
+
+        try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
+                p.getProperty("name"), p.getProperty("password"));
+             PreparedStatement pstmt = c.prepareStatement(query);
+        ) {
+            pstmt.setInt(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                size = new Size(rs.getInt("id"), Integer.parseInt(rs.getString("shoesize")));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return size;
+    }
+
     public Product getProductById(int id) {
         Product product = new Product();
         Model model = getModelByProductId(id);
-        Color color;
-        int size;
-        String query = "select product.id, product.modelid, color.color, shoesize.shoesize, " +
-                "product.balance from product inner join model on product.modelid = model.id " +
-                "inner join color on product.colorId = color.id inner join shoesize on " +
-                "product.shoesizeid = shoesize.id where product.id = ?";
+        ColorC color = getColorByProductId(id);
+        Size size = getSizeByProductId(id);
+        String query = "select * from product where product.id = ?";
 
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"), p.getProperty("password"));
@@ -94,8 +137,6 @@ public class CustomerRepository {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {//int id, Model model, Color color, int size, int balance
-                size = Integer.parseInt(rs.getString("shoesize"));
-                color = Color.valueOf(rs.getString("color").toUpperCase());
                 product = new Product(id, model, color, size, rs.getInt("balance"));
             }
 
@@ -111,7 +152,7 @@ public class CustomerRepository {
         List<Product> products = new ArrayList<>();
         List<Integer> allProductIDs = new ArrayList<>();
 
-        String query = "Select id from product where balance >0";
+        String query = "Select id from product";
 
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"), p.getProperty("password"));
@@ -240,8 +281,8 @@ public class CustomerRepository {
         String confirmation = "Order was placed successfully";
         List<Order> allOrders = getAllOrders();
 
-            int orderId = allOrders.stream().filter(o -> o.getCustomer().getId() == (cartcontentList.get(0).getCustomer().getId()))
-                    .filter(o -> o.isDelivered() == false).findFirst().map(Order::getId).orElse(-1);
+        int orderId = allOrders.stream().filter(o -> o.getCustomer().getId() == (cartcontentList.get(0).getCustomer().getId()))
+                .filter(o -> o.isDelivered() == false).findFirst().map(Order::getId).orElse(-1);
 
         for (Cartcontent content : cartcontentList) {
 
@@ -270,3 +311,36 @@ public class CustomerRepository {
     }
 
 }
+
+  /*  public Product getProductById(int id) {
+        Product product = new Product();
+        Model model = getModelByProductId(id);
+        Color color;
+        int size;
+        String query = "select product.id, product.modelid, color.color, shoesize.shoesize, " +
+                "product.balance from product inner join model on product.modelid = model.id " +
+                "inner join color on product.colorId = color.id inner join shoesize on " +
+                "product.shoesizeid = shoesize.id where product.id = ?";
+
+        try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
+                p.getProperty("name"), p.getProperty("password"));
+             PreparedStatement pstmt = c.prepareStatement(query);
+        ) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {//int id, Model model, Color color, int size, int balance
+                size = Integer.parseInt(rs.getString("shoesize"));
+                color = Color.valueOf(rs.getString("color").toUpperCase());
+                product = new Product(id, model, color, size, rs.getInt("balance"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return product;
+    }
+
+   */
