@@ -1,6 +1,6 @@
-package InUppg1.take2;
+package InUppg1;
 
-import InUppg1.take2.POJOs.*;
+import InUppg1.POJOs.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -76,8 +76,8 @@ public class CustomerRepository {
         return model;
     }
 
-    public ColorC getColorByProductId(int productId) {
-        ColorC color = new ColorC();
+    public Color getColorByProductId(int productId) {
+        Color color = new Color();
         String query = "select color.id as id, color.color as color from color " +
                 "inner join product on color.id = product.colorid where product.id = ?";
 
@@ -89,7 +89,7 @@ public class CustomerRepository {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                color = new ColorC(rs.getInt("id"), rs.getString("color"));
+                color = new Color(rs.getInt("id"), rs.getString("color"));
             }
 
         } catch (SQLException e) {
@@ -125,7 +125,7 @@ public class CustomerRepository {
     public Product getProductById(int id) {
         Product product = new Product();
         Model model = getModelByProductId(id);
-        ColorC color = getColorByProductId(id);
+        Color color = getColorByProductId(id);
         Size size = getSizeByProductId(id);
         String query = "select * from product where product.id = ?";
 
@@ -277,14 +277,14 @@ public class CustomerRepository {
     }
 
 
-    public void callAddToCart(List<Cartcontent> cartcontentList) {
+    public void callAddToCart(List<Purchase> purchaseList) {
         String confirmation = "Order was placed successfully";
         List<Order> allOrders = getAllOrders();
 
-        int orderId = allOrders.stream().filter(o -> o.getCustomer().getId() == (cartcontentList.get(0).getCustomer().getId()))
+        int orderId = allOrders.stream().filter(o -> o.getCustomer().getId() == (purchaseList.get(0).getCustomer().getId()))
                 .filter(o -> o.isDelivered() == false).findFirst().map(Order::getId).orElse(-1);
 
-        for (Cartcontent content : cartcontentList) {
+        for (Purchase content : purchaseList) {
 
             try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
                     p.getProperty("name"), p.getProperty("password"));
@@ -311,36 +311,3 @@ public class CustomerRepository {
     }
 
 }
-
-  /*  public Product getProductById(int id) {
-        Product product = new Product();
-        Model model = getModelByProductId(id);
-        Color color;
-        int size;
-        String query = "select product.id, product.modelid, color.color, shoesize.shoesize, " +
-                "product.balance from product inner join model on product.modelid = model.id " +
-                "inner join color on product.colorId = color.id inner join shoesize on " +
-                "product.shoesizeid = shoesize.id where product.id = ?";
-
-        try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
-                p.getProperty("name"), p.getProperty("password"));
-             PreparedStatement pstmt = c.prepareStatement(query);
-        ) {
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {//int id, Model model, Color color, int size, int balance
-                size = Integer.parseInt(rs.getString("shoesize"));
-                color = Color.valueOf(rs.getString("color").toUpperCase());
-                product = new Product(id, model, color, size, rs.getInt("balance"));
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        return product;
-    }
-
-   */

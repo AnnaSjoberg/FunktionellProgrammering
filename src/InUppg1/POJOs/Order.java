@@ -1,4 +1,4 @@
-package InUppg1.take2.POJOs;
+package InUppg1.POJOs;
 
 public class Order {
     private int id;

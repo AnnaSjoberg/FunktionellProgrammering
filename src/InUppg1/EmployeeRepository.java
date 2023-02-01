@@ -1,7 +1,7 @@
-package InUppg1.take2;
+package InUppg1;
 
-import InUppg1.take2.POJOs.Customer;
-import InUppg1.take2.POJOs.Order;
+import InUppg1.POJOs.Customer;
+import InUppg1.POJOs.Order;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

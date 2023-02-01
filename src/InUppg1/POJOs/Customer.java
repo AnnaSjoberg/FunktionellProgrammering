@@ -1,14 +1,12 @@
 package InUppg1.POJOs;
 
-import java.util.List;
-
 public class Customer {
     private int id;
     private String name;
     private String socialSecurityNumber;
     private String address;
     private String password;
-    private List<Orders> orders;
+
     public Customer() {}
 
     public Customer(int id, String name, String socialSecurityNumber, String address, String password) {
@@ -60,11 +58,4 @@ public class Customer {
         this.password = password;
     }
 
-    public List<Orders> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Orders> orders) {
-        this.orders = orders;
-    }
-}
+   }

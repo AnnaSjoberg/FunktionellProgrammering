@@ -1,15 +1,15 @@
-package InUppg1.take2.POJOs;
+package InUppg1.POJOs;
 
-public class Cartcontent {
+public class Purchase {
     private Customer customer;
     private Product product;
     private int orderedAmount;
 
 
-    public Cartcontent() {
+    public Purchase() {
     }
 
-    public Cartcontent(Customer customer, Product product, int orderedAmount) {
+    public Purchase(Customer customer, Product product, int orderedAmount) {
         this.customer = customer;
         this.product = product;
         this.orderedAmount = orderedAmount;
