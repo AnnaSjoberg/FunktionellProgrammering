@@ -6,6 +6,7 @@ public class Cartcontent {
     private Product product;
     private int orderedAmount;
 
+    public Cartcontent(){}
     public Cartcontent(int id, Order order, Product product, int orderedAmount) {
         this.id = id;
         this.order = order;

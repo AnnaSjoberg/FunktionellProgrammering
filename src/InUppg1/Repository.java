@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-// repo som hanterar produkterna
-public class CustomerRepository {
+
+public class Repository {
 
     Properties p = new Properties();
 
-    public CustomerRepository() {
+    public Repository() {
         try {
             p.load(new FileInputStream("src/InUppg1/settings.properties"));
         } catch (FileNotFoundException e) {
@@ -174,15 +174,6 @@ public class CustomerRepository {
         return products;
     }
 
-    public Customer getVerifiedCustomer(String name, String password) {
-        List<Customer> customers = getAllCustomers();
-
-        Customer customer = customers.stream().filter(c -> c.getName().equalsIgnoreCase(name)
-                && c.getPassword().equals(password)).findFirst().orElse(null);
-
-        return customer;
-    }
-
     public List<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<>();
         List<Integer> allCustomerIds = new ArrayList<>();
@@ -207,6 +198,15 @@ public class CustomerRepository {
         }
 
         return customers;
+    }
+
+    public Customer getVerifiedCustomer(String name, String password) {
+        List<Customer> customers = getAllCustomers();
+
+        Customer customer = customers.stream().filter(c -> c.getName().equalsIgnoreCase(name)
+                && c.getPassword().equals(password)).findFirst().orElse(null);
+
+        return customer;
     }
 
     public Customer getCustomerById(int id) {
@@ -254,7 +254,6 @@ public class CustomerRepository {
 
         return orders;
     }
-
     public Order getOrderById(int id) {
         Order order = new Order();
         String query = "select * from Orders where id = ?";
@@ -274,6 +273,54 @@ public class CustomerRepository {
             throw new RuntimeException(e);
         }
         return order;
+    }
+
+    public List<Cartcontent> getAllCartContent() {
+        List<Cartcontent> cartcontentList = new ArrayList<>();
+        List<Integer> allCartcontentIds = new ArrayList<>();
+        String query = "Select id from cartcontent";
+
+        try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
+                p.getProperty("name"), p.getProperty("password"));
+             PreparedStatement pstmt = c.prepareStatement(query);
+        ) {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                allCartcontentIds.add(rs.getInt("id"));
+            }
+
+            cartcontentList = allCartcontentIds.stream().map(i -> getCartcontentById(i)).toList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+        return cartcontentList;
+    }
+
+    public Cartcontent getCartcontentById (int id){
+        Cartcontent cartcontent = new Cartcontent();
+        String query = "select * from Cartcontent where id = ?";
+        try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
+                p.getProperty("name"), p.getProperty("password"));
+             PreparedStatement pstmt = c.prepareStatement(query);
+        ) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Order order = getOrderById(rs.getInt("orderid"));
+                Product product = getProductById(rs.getInt("productid"));
+                cartcontent = new Cartcontent(id, order, product, rs.getInt("orderedAmount"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return cartcontent;
+
     }
 
 

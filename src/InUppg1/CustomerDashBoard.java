@@ -1,27 +1,26 @@
 package InUppg1;
 
-import InUppg1.POJOs.Purchase;
 import InUppg1.POJOs.Customer;
 import InUppg1.POJOs.Model;
 import InUppg1.POJOs.Product;
+import InUppg1.POJOs.Purchase;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class DashBoard {
+public class CustomerDashBoard {
+
     Scanner sc = new Scanner(System.in);
-    CustomerRepository repo = new CustomerRepository();
+    Repository repo = new Repository();
     List<Model> models = new ArrayList<>();
     List<Product> products = new ArrayList<>();
 
     List<Purchase> purchaseList = new ArrayList<>();
     Product product;
     Customer customer;
-
-    boolean done = false;
     String reply;
 
-    public DashBoard() {
+    public CustomerDashBoard() {
 
         customer = logInCustomer();
 
@@ -37,13 +36,13 @@ public class DashBoard {
             }else {
                 purchaseList.add(new Purchase(customer, product, getAmountToBuy()));
             }
-                System.out.println("Do you want to add something else to your order? (y/n)");
-                reply = sc.next().trim();
-                if (reply.equalsIgnoreCase("n")) {
-                    break;
-                } else if (reply.equalsIgnoreCase("y")) {
-                    System.out.println("Please go on with your order");
-                }
+            System.out.println("Do you want to add something else to your order? (y/n)");
+            reply = sc.next().trim();
+            if (reply.equalsIgnoreCase("n")) {
+                break;
+            } else if (reply.equalsIgnoreCase("y")) {
+                System.out.println("Please go on with your order");
+            }
 
         }
         if (purchaseList.size()>0) {
@@ -108,7 +107,4 @@ public class DashBoard {
         return amount;
     }
 
-    public static void main(String[] args) {
-        DashBoard db = new DashBoard();
-    }
 }
