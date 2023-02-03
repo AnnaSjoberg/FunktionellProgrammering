@@ -45,4 +45,18 @@ public class Cartcontent {
     public void setOrderedAmount(int orderedAmount) {
         this.orderedAmount = orderedAmount;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Cartcontent)) {
+            return false;
+        }
+        Cartcontent cc = (Cartcontent) o;
+
+        return cc.getId()==(this.getId());
+
+    }
 }

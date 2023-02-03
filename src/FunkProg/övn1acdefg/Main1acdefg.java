@@ -21,46 +21,43 @@ public class Main1acdefg {
         //räknar alla böcker som tillhör mig
         System.out.println(books.stream().filter(b -> b.getOwner().equalsIgnoreCase("Anna")).count());
 
-        System.out.println();
+        System.out.println("--------------------------------C--------------------");
 
         //uppg 1c
         List<List<Book>> cList = BookUtil.getBookListC();
         cList.stream().flatMap(list -> list.stream()).forEach(list-> System.out.println(list));
         cList.stream().flatMap(l->l.stream().map(Book::getTitle)).forEach(l-> System.out.println(l));
 
-        System.out.println();
-
+        System.out.println("--------------------------------D--------------------");
         //1d
         System.out.println(books.stream().map(Book::getRating).reduce(0, (rateSum,b)->rateSum+b));
         System.out.println(books.stream().map(Book::getRating).reduce(0, Integer::sum));
         System.out.println(books.stream().map(Book::getTitle).reduce("", (str,title)->str+title+", "));
 
-        System.out.println();
-
+        System.out.println("--------------------------------E--------------------");
         //1e
         System.out.println(books.stream().mapToInt(Book::getRating).average().orElse(0));
         System.out.println(books.stream().filter(b->b.getOwner().equalsIgnoreCase("anna")
                 &&b.getColor().equalsIgnoreCase("black")));
         System.out.println(books.stream().anyMatch(b->b.getAuthor().equalsIgnoreCase("Michelle Magorian")));
 
-        System.out.println();
-
+        System.out.println("--------------------------------F--------------------");
         //1f
-        books.stream().sorted(Comparator.comparing(a -> ((Integer) a.getRating()))).forEach(System.out::println);
-        Collator c = Collator.getInstance(new Locale("sv","SE"));
-        books.stream().map(Book::getTitle).sorted(c).forEach(System.out::println);
+        List rated = books.stream().sorted(Comparator.comparing(a -> ((Integer) a.getRating()))).toList();
+        //Collator c = Collator.getInstance(new Locale("sv","SE"));
+        //books.stream().map(Book::getTitle).sorted(c).forEach(System.out::println);
+        rated.stream().forEach(System.out::println);
+        System.out.println("--------------------------------G--------------------");
 
-        System.out.println();
-        Book book = new Book("fre","fjf","grey",Genre.FRIENDSHIP,4,"Anna",false);
         //1g
         System.out.println(books.stream().map(Book::getTitle).collect(Collectors.joining(", ")));
-//allOrders.stream().filter(o -> o.getCustomer().equals(cartcontentList.get(0).getCustomer())).filter(o-> o.isDelivered()==false).findFirst().map(Order::getId).orElse(-1);
+
 
         List<Book> tiny = books.stream().filter(b->b.isFact()).toList();
 
         tiny.stream().map(b-> tiny.indexOf(b) + ". " + b.getTitle()).forEach(System.out::println);
 
-        System.out.println();
+        System.out.println("--------------------------------HASHMAP--------------------");
         var counter = new AtomicInteger(1);
         var orderedMap = new LinkedHashMap<Integer,String>();
 

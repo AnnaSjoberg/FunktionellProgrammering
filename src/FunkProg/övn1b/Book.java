@@ -4,16 +4,16 @@ public class Book {
     private String title;
     private String author;
     private String color;
-    private Genre genre;
+    private String genre;
     private int rating;
-    private String Owner;
+    private Person Owner;
     private boolean fact;
 
-    public Book(String title, String author, String color, Genre genre, int rating, String owner, boolean fact) {
+    public Book(String title, String author, String color, Genre genre, int rating, Person owner, boolean fact) {
         this.title = title;
         this.author = author;
         this.color = color;
-        this.genre = genre;
+        this.genre = String.valueOf(genre);
         this.rating = rating;
         Owner = owner;
         this.fact = fact;
@@ -43,12 +43,12 @@ public class Book {
         this.color = color;
     }
 
-    public Genre getGenre() {
+    public String getGenre() {
         return genre;
     }
 
     public void setGenre(Genre genre) {
-        this.genre = genre;
+        this.genre = String.valueOf(genre);
     }
 
     public int getRating() {
@@ -59,11 +59,11 @@ public class Book {
         this.rating = rating;
     }
 
-    public String getOwner() {
+    public Person getOwner() {
         return Owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(Person owner) {
         Owner = owner;
     }
 

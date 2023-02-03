@@ -36,4 +36,19 @@ public class Order {
     public void setDelivered(boolean delivered) {
         this.delivered = delivered;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Order)) {
+            return false;
+        }
+        Order o = (Order) obj;
+
+        return o.getId()==(this.getId());
+
+    }
 }

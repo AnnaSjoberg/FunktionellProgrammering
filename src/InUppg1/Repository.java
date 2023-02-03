@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 
@@ -136,15 +137,12 @@ public class Repository {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {//int id, Model model, Color color, int size, int balance
+            while (rs.next()) {
                 product = new Product(id, model, color, size, rs.getInt("balance"));
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
         return product;
     }
 
@@ -170,7 +168,6 @@ public class Repository {
             e.printStackTrace();
 
         }
-
         return products;
     }
 
@@ -196,7 +193,6 @@ public class Repository {
             e.printStackTrace();
 
         }
-
         return customers;
     }
 
@@ -204,7 +200,7 @@ public class Repository {
         List<Customer> customers = getAllCustomers();
 
         Customer customer = customers.stream().filter(c -> c.getName().equalsIgnoreCase(name)
-                && c.getPassword().equals(password)).findFirst().orElse(null);
+                && c.getPassword().equals(password)).findAny().orElse(null);
 
         return customer;
     }
@@ -254,6 +250,7 @@ public class Repository {
 
         return orders;
     }
+
     public Order getOrderById(int id) {
         Order order = new Order();
         String query = "select * from Orders where id = ?";
@@ -296,11 +293,10 @@ public class Repository {
             e.printStackTrace();
 
         }
-
         return cartcontentList;
     }
 
-    public Cartcontent getCartcontentById (int id){
+    public Cartcontent getCartcontentById(int id) {
         Cartcontent cartcontent = new Cartcontent();
         String query = "select * from Cartcontent where id = ?";
         try (Connection c = DriverManager.getConnection(p.getProperty("connectionString"),
@@ -322,7 +318,6 @@ public class Repository {
         return cartcontent;
 
     }
-
 
     public void callAddToCart(List<Purchase> purchaseList) {
         String confirmation = "Order was placed successfully";
@@ -356,5 +351,6 @@ public class Repository {
         }
         System.out.println(confirmation);
     }
+
 
 }

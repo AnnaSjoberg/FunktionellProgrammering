@@ -21,10 +21,7 @@ public class CustomerDashBoard {
     String reply;
 
     public CustomerDashBoard() {
-
         customer = logInCustomer();
-
-
         while (true) {
             product = getProductToBuy();
             if (product == null){

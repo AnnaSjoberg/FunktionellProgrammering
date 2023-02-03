@@ -58,4 +58,17 @@ public class Customer {
         this.password = password;
     }
 
-   }
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Customer)) {
+            return false;
+        }
+        Customer c = (Customer) o;
+
+        return c.getId()==(this.getId());
+
+    }
+}

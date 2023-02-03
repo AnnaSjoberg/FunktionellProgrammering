@@ -61,9 +61,24 @@ public class Product {
     @Override
     public String toString() {
         return "Size: " + size.getSize() +
-                "\tColor: " + color.getColor() +
-                 "\t\t("+balance + " pairs in stock)";
-        //return id +". "+ model.getName() +"\t\t Color: " + color +
-          //      "\t\t Size: " + size + "\t\t"+balance + " pairs in stock.";
+                "\tColor: " + color.getColor();
+    }
+    public String reportString(){
+        return getModel().getBrand().getName() + ", "+ getModel().getName()
+                + ", "+ getColor().getColor() + ", s"+ getSize().getSize();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Product)) {
+            return false;
+        }
+        Product p = (Product) o;
+
+        return p.getId()==(this.getId());
+
     }
 }
