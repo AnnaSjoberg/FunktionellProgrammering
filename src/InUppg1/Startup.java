@@ -22,6 +22,9 @@ public class Startup {
         if (reply.equalsIgnoreCase("e")) {
             EmployeeDashBoard edb = new EmployeeDashBoard();
         }
+        if (reply.equalsIgnoreCase("0")) {
+            System.exit(0);
+        }
     }
 
     }
