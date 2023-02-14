@@ -40,11 +40,12 @@ public class EmployeeDashBoard {
             System.out.println();
             System.out.println("Dou you want to review something else? (y/n)");
             String reply = sc.next().trim();
-            if(!reply.equalsIgnoreCase("y")){
+            if (!reply.equalsIgnoreCase("y")) {
                 System.exit(0);
             }
         }
     }
+
     public int chooseReport() {
         choices = List.of("Orders per Customer.",
                 "Sum of orders per Customer", "Sum of orders per Location", "Most sold Products");
@@ -53,6 +54,7 @@ public class EmployeeDashBoard {
         int reply = sc.nextInt();
         return reply;
     }
+
     public void printOrdersGroupedByCustomerName() {
         Map<String, List<Order>> result = allOrders.stream().collect(groupingBy(o -> o.getCustomer().getSocialSecurityNumber()));
         result.forEach((i, o) -> System.out.println(i + ": " + o.size()));
