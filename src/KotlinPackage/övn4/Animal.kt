@@ -2,7 +2,7 @@ package KotlinPackage.övn4
 
 import java.util.*
 
-class Animal(val species: String, val numberOfLegs: Int) {
+class Animal(var species: String, var numberOfLegs: Int) {
 
     fun printSpecies() = println(species)
 
