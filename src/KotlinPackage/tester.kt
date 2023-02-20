@@ -23,20 +23,9 @@ fun showTruthTable() {
 
 fun main() {
     showTruthTable()
-    val list = listOf<String>("vJrwpWtwJgWr", "hcsFMMfFFhFp")
-    println(test(list))
+    val list = listOf(1,2,3,4,5,6,7,8,9,10,11,12)
+    println(list.slice(0..3).sum())
+    println(list.subList(0,3).sum())
 }
 
-fun test(list:List<String>):Char{
-    var a: String = list[0]
-    var b: String = list[1]
-    var counter: Int = 0
-    var temp: Char
 
-    for (c in a) {
-        if (c == b[counter])
-            return c
-        else counter++
-    }
-    return 'X'
-}

@@ -3,32 +3,40 @@ package InUppg2.AOC.Y2021.D02
 import java.io.File
 import java.util.*
 
-fun getFinalPosition(x: Int, y: Int) = x * y
+fun fromFileToMap(path: String): Map<String, List<Int>>{
 
-
-fun main() {
-    val scanner = Scanner(File("src/InUppg2/AOC/Y2021/D02/input"))
+    val scanner = Scanner(File(path))
     val mapFromFile = mutableMapOf<String, MutableList<Int>>()
-
 
     while (scanner.hasNext()) {
         val direction = scanner.next()
-        //val digit = scanner.nextInt()
+
         val digit = if (direction.equals("up")) -scanner.nextInt() else scanner.nextInt()
 
-        //myMap.putIfAbsent(direction, digit)
         mapFromFile.getOrPut(direction) { mutableListOf() }.add(digit)
     }
-    val calculatedMap = mutableMapOf<String, Int>()
+    return mapFromFile
+}
 
+fun sumUpMap(mapFromFile:Map<String, List<Int>>): Map<String, Int>{
+val result = mutableMapOf<String,Int>()
     for ((k, v) in mapFromFile) {
         if (k.equals("forward"))
-            calculatedMap.putIfAbsent("x", v.sum())
-        else if (!calculatedMap.containsKey("y"))
-            calculatedMap.putIfAbsent("y", v.sum())
+            result.putIfAbsent("horizontal", v.sum())
+        else if (!result.containsKey("depth"))
+            result.putIfAbsent("depth", v.sum())
         else
-            calculatedMap.put("y", calculatedMap.getValue("y")+v.sum())
+            result.put("depth", result.getValue("depth")+v.sum())
     }
+    return result
+}
+
+fun getFinalPosition(x: Int, y: Int) = x * y
+
+fun main() {
+    val mapFromFile = fromFileToMap("src/InUppg2/AOC/Y2021/D02/sample")
+    val calculatedMap = sumUpMap(mapFromFile)
+
 
     for ((k, v) in calculatedMap) println("$k : $v")
 
