@@ -4,7 +4,7 @@ import KotlinPackage.övn9.filter
 import java.io.File
 
 fun main() {
-    val binaryStrings: List<String> = File("src/InUppg2/AOC/Y2021/D03/sample").readLines()
+    val binaryStrings: List<String> = File("src/InUppg2/AOC/Y2021/D03/input").readLines()
 
 
     val aList = getBothValuesAsStringList(binaryStrings)

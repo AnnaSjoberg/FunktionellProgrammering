@@ -1,8 +1,7 @@
 package InUppg2.AOC.Y2021.D02
 
 import java.io.File
-import java.util.*
-
+//Hittade inte någon version som jag tyckte var bättre än den jag hade.
 fun fromFileToList(path: String) = File(path).readLines()
 
 fun calculatePosition(list: List<String>): Map<String,Int> {
@@ -19,7 +18,6 @@ fun calculatePosition(list: List<String>): Map<String,Int> {
                 horizontal += num
                 depth += (aim * num)
             }
-
             "up" -> aim -= num
             "down" -> aim += num
         }

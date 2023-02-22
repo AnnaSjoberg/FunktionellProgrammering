@@ -3,7 +3,7 @@ package InUppg2.AOC.Y2021.D02
 import java.io.File
 import java.util.*
 
-fun fromFileToMap(path: String): Map<String, List<Int>>{
+fun fromFileToMapOfList(path: String): MutableMap<String, MutableList<Int>> {
 
     val scanner = Scanner(File(path))
     val mapFromFile = mutableMapOf<String, MutableList<Int>>()
@@ -34,11 +34,11 @@ val result = mutableMapOf<String,Int>()
 fun getFinalPosition(x: Int, y: Int) = x * y
 
 fun main() {
-    val mapFromFile = fromFileToMap("src/InUppg2/AOC/Y2021/D02/sample")
+    val mapFromFile = fromFileToMapOfList("src/InUppg2/AOC/Y2021/D02/input")
     val calculatedMap = sumUpMap(mapFromFile)
 
 
     for ((k, v) in calculatedMap) println("$k : $v")
 
-    println(getFinalPosition(calculatedMap.getValue("x"),calculatedMap.getValue("y")))
+    println(getFinalPosition(calculatedMap.getValue("horizontal"),calculatedMap.getValue("depth")))
 }
