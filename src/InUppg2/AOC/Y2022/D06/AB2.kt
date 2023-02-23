@@ -1,7 +1,7 @@
 package InUppg2.AOC.Y2022.D06
 
 import java.io.File
-
+//Källa: https://todd.ginsberg.com/post/advent-of-code/2022/day6/
 fun main() {
     val input: List<String> = File("src/InUppg2/AOC/Y2022/D06/input").readLines()
 
