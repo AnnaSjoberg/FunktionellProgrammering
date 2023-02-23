@@ -10,17 +10,17 @@ fun main() {
         listOfIntLists.add(convertInputToPairsOfIntList(line))
     }
 
-    println(countTotalOverlap(listOfIntLists))
+    println(countTotalOverlap(listOfIntLists))  //A-uppgiften
 
-    println(countPartialOverlap(listOfIntLists))
+    println(countPartialOverlap(listOfIntLists))    //B-uppgiften
 }
 
 fun convertInputToPairsOfIntList(line: String): List<Int> {
     val (a, b, c, d) = line.split("-", ",", limit = 4) //delar upp raden i två delar (före och efter '-')
-    return listOf(a.toInt(),b.toInt() , c.toInt(),d.toInt())
+    return listOf(a.toInt(), b.toInt(), c.toInt(), d.toInt())
 }
 
-fun countTotalOverlap (listOfList: List<List<Int>>)=
-    listOfList.count { (it[0] <= it[2] && it[1] >= it[3]) || (it[0] >= it[2] && it[1] <= it[3]) }
+fun countTotalOverlap(listOfList: List<List<Int>>) =
+    listOfList.count { (it[0] <= it[2] && it[1] >= it[3]) || (it[0] >= it[2] && it[1] <= it[3]) } //[0]-[1],[2]-[3] ex 1-10,3-4
 
-fun countPartialOverlap (listOfList: List<List<Int>>)= listOfList.count { ! (it[1] < it[2]  || it[3] < it[0]) }
+fun countPartialOverlap(listOfList: List<List<Int>>) = listOfList.count { ! (it[1] < it[2] || it[3] < it[0]) }

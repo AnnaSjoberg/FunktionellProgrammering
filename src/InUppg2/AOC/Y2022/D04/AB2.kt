@@ -16,11 +16,11 @@ fun main() {
     println(answerB)
 }
 
-private fun String.asIntRange(): IntRange =
-    substringBefore('-').toInt()..substringAfter('-').toInt()
-
 private fun String.asRanges(): Pair<IntRange,IntRange> =
     substringBefore(',').asIntRange() to substringAfter(',').asIntRange()
+
+private fun String.asIntRange(): IntRange =
+    substringBefore('-').toInt()..substringAfter('-').toInt()
 
 private infix fun IntRange.totalOverlap(other:IntRange): Boolean =  //infix - gör så jag kan slippa sätta den andra rangen i () vid anropet
     this.first <= other.first && this.last >= other.last  //this behövs inte, men la dit för tydlighet.
