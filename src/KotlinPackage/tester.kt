@@ -1,30 +1,22 @@
 package KotlinPackage
 
-fun main() {
-    while (true) {
-        println("Spelare 1, skriv in ditt val: ")
-        var choicePlayer1 = readLine()
-        when (choicePlayer1) {
-            "Rock" -> {
-                print("Spelare 1: rock")
-                break;
-            }
-            "Paper" -> print("Spelare 1: paper")
-            "Scissors" -> print("Spelare 1: scissors")
-            else -> println("Fel inmatning, försök igen:")
-        }
+import java.util.*
 
+fun main() {
+    val name: String = "Hitesh"
+    when {
+        name.equals(name.uppercase(Locale.getDefault()), true) -> {     //kan vara också name.lowercase....
+            println("$name: ${name.uppercase()} / ${name.lowercase()}")
+            // DO SOMETHING
+        }
     }
 
+    val s: String = "TOMTE"
     while (true) {
-        println("Spelare 2, skriv in ditt val: ")
-        var choicePlayer2 = readLine()
-        when (choicePlayer2) {
-            "Rock" -> println("Spelare 2: rock")
-            "Paper" -> println("Spelare 2: paper")
-            "Scissors" -> println("Spelare 2: scissors")
-            else -> println("Fel inmatning, försök igen:")
+        println("Write tomte")
+        val input = readln()
+        if (s.equals(input, ignoreCase = true)) {
+            println(s)
         }
-        break;
     }
 }

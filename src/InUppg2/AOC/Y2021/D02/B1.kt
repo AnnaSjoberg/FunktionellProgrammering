@@ -2,7 +2,6 @@ package InUppg2.AOC.Y2021.D02
 
 import java.io.File
 //Hittade inte någon version som jag tyckte var bättre än den jag hade.
-fun fromFileToList(path: String) = File(path).readLines()
 
 fun calculatePosition(list: List<String>): Map<String,Int> {
     var aim = 0
@@ -26,11 +25,10 @@ fun calculatePosition(list: List<String>): Map<String,Int> {
 }
 
 fun main() {
-    val input = fromFileToList("src/InUppg2/AOC/Y2021/D02/input")
+    val input =  File("src/InUppg2/AOC/Y2021/D02/input").readLines()
     val mappedPosition = calculatePosition(input)
 
     println("${mappedPosition.getValue("depth")} * ${mappedPosition.getValue("horizontal")} = " +
             "${mappedPosition.getValue("depth")*mappedPosition.getValue("horizontal")}")
 
-    mappedPosition.forEach({ (k, v) -> println("$k - $v") })
 }

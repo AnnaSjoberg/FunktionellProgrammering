@@ -8,7 +8,7 @@ internal class AB1KtTest {
     val testList = fromFileToList("src/InUppg2/AOC/Y2021/D01/sample")//199,200,208,210,200,207,240,269,260,263
     @Test
     fun fromFileToListTest() {
-        assertTrue(testList.size==8)
+        assertTrue(testList.size==10)
         assertTrue(testList[testList.size-1]==263)
     }
 

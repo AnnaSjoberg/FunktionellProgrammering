@@ -27,7 +27,7 @@ internal class AB1KtTest {
     }
 
     @Test
-    fun countPartialOverlap() {
+    fun countPartialOverlapTest() {
         for (line in input) {
             list.add(convertInputToPairsOfIntList(line))
         }

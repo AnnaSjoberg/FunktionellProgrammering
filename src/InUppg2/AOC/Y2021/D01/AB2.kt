@@ -9,7 +9,7 @@ fun countIncreasesWindowed(depths: List<Int>, window: Int=2) = depths.windowed(w
 
 
 fun main() {
-    val depths = fromFileToList("src/InUppg2/AOC/Y2021/D01/input")
+    val depths = fromFileToList("src/InUppg2/AOC/Y2021/D01/input")      //anropar metoden från första lösningen
 
     val a = countIncreasesWindowed(depths)
     println(a)

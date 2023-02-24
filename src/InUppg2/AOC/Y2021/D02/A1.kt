@@ -35,10 +35,8 @@ fun getFinalPosition(x: Int, y: Int) = x * y
 
 fun main() {
     val mapFromFile = fromFileToMapOfList("src/InUppg2/AOC/Y2021/D02/input")
+
     val calculatedMap = sumUpMap(mapFromFile)
-
-
-    for ((k, v) in calculatedMap) println("$k : $v")
 
     println(getFinalPosition(calculatedMap.getValue("horizontal"),calculatedMap.getValue("depth")))
 }
